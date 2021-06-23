@@ -1,9 +1,9 @@
-const express = require('express')
 const path = require('path')
+const express = require('express')
 const app = express()
-const serv = require('http').Server(app)
+const serv = require('http').createServer(app)
 const io = require('socket.io')(serv, {})
-
+const AudioProcessing = require('./audio.js')
 const PORT = process.env.PORT || 3001
 
 // Have Node serve the files for our built React app
@@ -19,24 +19,26 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'))
 })
 
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-})
-
 var targets = []
 const socketList = {}
 
-io.sockets.on('connection', (socket) => {
-  socket.id = Math.random()
+io.on('connection', (socket) => {
   socketList[socket.id] = socket
 
-  console.log('client#' + socket.id + ' connected')
+  console.log('client ' + socket.id + ' connected')
 
   socket.on('request-song', (data) => {
       console.log(data.song)
   })
   socket.on('disconnect', () => {
-      console.log('client#' + socket.id + ' disconnected')
+      console.log('client ' + socket.id + ' disconnected')
       delete socketList[socket.id]
   })
 })
+
+serv.listen(PORT, () => {
+  console.log(`Server listening on ${PORT}`);
+})
+
+audioProcessing = new AudioProcessing()
+audioProcessing.loadFile('issues.mp3')
