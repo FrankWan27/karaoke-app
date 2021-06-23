@@ -2,16 +2,14 @@
   "name": "karaoke-app",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node server/index.js",
+    "build": "cd client && npm install && npm run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "\u001b[A\u001b[B"
-  },
+  "keywords": [],
   "author": "Frank Wan <frankwan27@gmail.com> (https://frankwan27.github.io/)",
-  "license": "apache-2.0",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
     "socket.io": "^4.1.2"
